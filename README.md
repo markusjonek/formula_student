@@ -1,6 +1,8 @@
 # KTH formula student
 
 # Exercise 1
+___
+## Docker
 first pull the kthfsdv docker:
 ```
 docker pull kthfsdv/ros-intro
@@ -30,9 +32,10 @@ and then insde the container:
 source /ros_entrypoint.sh
 cd ~/kthfsdv/
 ```
-___
+
 You should now have three terminals in the container.
 ___
+## Get code
 
 In one of the terminals get the content of exc1 by doing:
 ```
@@ -43,6 +46,7 @@ rm -r formula_student
 catkin build
 ```
 ___
+## Start roscore and nodes
 In one of the terminals start the roscore:
 ```
 source ~/kthfsdv/devel/setup.bash
