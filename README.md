@@ -10,14 +10,7 @@ and run it:
 ```
 docker run -it kthfsdv/ros-intro
 ```
-Then do:
-```
-source /opt/ros/melodic/setup.bash
-mkdir -p ~/kthfsdv/src
-cd ~/kthfsdv/
-catkin build
-```
-Start two new terminal windows and respectively run:
+Then start two new terminal windows and respectively run:
 ````
 docker ps
 ````
@@ -34,6 +27,8 @@ You should now have three terminals in the container.
 ## Get code
 In one of the terminals get the content of exc1 by doing:
 ```
+source /opt/ros/melodic/setup.bash
+mkdir -p ~/kthfsdv/src
 cd ~/kthfsdv/src/
 git clone https://github.com/markusjonek/formula_student.git
 mv formula_student/exc1 ./
