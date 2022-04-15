@@ -34,4 +34,26 @@ cd ~/kthfsdv/
 In one of the windows do:
 ```
 cd src
-git clone 
+git clone https://github.com/markusjonek/formula_student.git
+mv formula_student/exc1 ./
+rm -r formula_student
+cd ..
+catkin build
+source devel/setup.bash
+```
+In another terminal window start the roscore:
+```
+source devel/setup.bash
+roscore
+```
+In another window start checking the topic "kthfs/result":
+```
+source devel/setup.bash
+rostopic echo kthfs/result
+```
+In the third window launch the nodes with:
+```
+cd /root/kthfsdv/src/exc1
+roslaunch launch.launch
+```
+Then check the rostopic echo window if it is working.
