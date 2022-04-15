@@ -31,7 +31,7 @@ source /ros_entrypoint.sh
 cd ~/kthfsdv/
 ```
 ___
-You should now have three terminals in the container at ~/kthfsdv/
+You should now have three terminals in the container.
 ___
 
 In one of the terminals get this content of exc1 by doing:
