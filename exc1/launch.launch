@@ -1,0 +1,4 @@
+<launch>
+    <node name="NodeA" pkg="broadcast" type="talker.py" />
+    <node name="NodeB" pkg="receiver" type="subscriber.py" />
+</launch>
