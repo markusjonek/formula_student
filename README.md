@@ -31,3 +31,7 @@ source /ros_entrypoint.sh
 cd ~/kthfsdv/
 ```
 
+In one of the windows do:
+```
+cd src
+git clone 
