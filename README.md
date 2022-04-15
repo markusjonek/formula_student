@@ -3,11 +3,11 @@
 # Exercise 1
 first pull the kthfsdv docker:
 ```
-docker pull kthfs/ros-intro
+docker pull kthfsdv/ros-intro
 ```
 and run it:
 ```
-docker run -it kthfs/ros-intro
+docker run -it kthfsdv/ros-intro
 ```
 Then do:
 ```
