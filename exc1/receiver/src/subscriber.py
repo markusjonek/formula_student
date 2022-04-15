@@ -7,7 +7,7 @@ def callback(data):
     q = 0.15
     heard = data.data
     new_number  = heard / q
-    second_pub = rospy.Publisher("/kthfs/result", Float32, queue_size=1)
+    second_pub = rospy.Publisher("kthfs/result", Float32, queue_size=1)
     second_pub.publish(new_number)
     #rospy.loginfo(new_number)
 
