@@ -34,7 +34,7 @@ ___
 You should now have three terminals in the container.
 ___
 
-In one of the terminals get this content of exc1 by doing:
+In one of the terminals get the content of exc1 by doing:
 ```
 cd ~/kthfsdv/src/
 git clone https://github.com/markusjonek/formula_student.git
