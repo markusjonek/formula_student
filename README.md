@@ -1,7 +1,7 @@
 # KTH formula student
 
 # Exercise 1
-### Docker
+## Docker
 first pull the kthfsdv docker:
 ```
 docker pull kthfsdv/ros-intro
@@ -17,7 +17,6 @@ mkdir -p ~/kthfsdv/src
 cd ~/kthfsdv/
 catkin build
 ```
-___
 Start two new terminal windows and respectively run:
 ````
 docker ps
@@ -31,9 +30,8 @@ and then insde the container:
 source /ros_entrypoint.sh
 cd ~/kthfsdv/
 ```
-
 You should now have three terminals in the container.
-### Get code
+## Get code
 In one of the terminals get the content of exc1 by doing:
 ```
 cd ~/kthfsdv/src/
@@ -42,24 +40,21 @@ mv formula_student/exc1 ./
 rm -r formula_student
 catkin build
 ```
-### Start roscore and nodes
+## Start roscore and nodes
 In one of the terminals start the roscore:
 ```
 source ~/kthfsdv/devel/setup.bash
 roscore
 ```
-___
 In another terminal start checking the topic "kthfs/result":
 ```
 source ~/kthfsdv/devel/setup.bash
 rostopic echo kthfs/result
 ```
-___
 In the third terminal launch the nodes with:
 ```
 source ~/kthfsdv/devel/setup.bash
 cd ~/kthfsdv/src/exc1
 roslaunch launch.launch
 ```
-___
 Then check the "rostopic echo" window if it is working.
