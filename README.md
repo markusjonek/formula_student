@@ -36,31 +36,30 @@ ___
 
 In one of the terminals get this content of exc1 by doing:
 ```
-cd /src/
+cd ~/kthfsdv/src/
 git clone https://github.com/markusjonek/formula_student.git
 mv formula_student/exc1 ./
 rm -r formula_student
-cd ..
 catkin build
-source devel/setup.bash
 ```
 ___
 In one of the terminals start the roscore:
 ```
-source devel/setup.bash
+source ~/kthfsdv/devel/setup.bash
 roscore
 ```
 ___
 In another terminal start checking the topic "kthfs/result":
 ```
-source devel/setup.bash
+source ~/kthfsdv/devel/setup.bash
 rostopic echo kthfs/result
 ```
 ___
 In the third terminal launch the nodes with:
 ```
-cd /root/kthfsdv/src/exc1
+source ~/kthfsdv/devel/setup.bash
+cd ~/kthfsdv/src/exc1
 roslaunch launch.launch
 ```
 ___
-Then check the rostopic echo window if it is working.
+Then check the "rostopic echo" window if it is working.
