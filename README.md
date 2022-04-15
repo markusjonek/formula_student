@@ -16,7 +16,7 @@ mkdir -p ~/kthfsdv/src
 cd ~/kthfsdv/
 catkin build
 ```
-
+___
 Start two new terminal windows and respectively run:
 ````
 docker ps
@@ -30,10 +30,13 @@ and then insde the container:
 source /ros_entrypoint.sh
 cd ~/kthfsdv/
 ```
+___
+You should now have three terminals in the container at ~/kthfsdv/
+___
 
-In one of the windows do:
+In one of the terminals get this content of exc1 by doing:
 ```
-cd src
+cd /src/
 git clone https://github.com/markusjonek/formula_student.git
 mv formula_student/exc1 ./
 rm -r formula_student
@@ -41,19 +44,23 @@ cd ..
 catkin build
 source devel/setup.bash
 ```
-In another terminal window start the roscore:
+___
+In one of the terminals start the roscore:
 ```
 source devel/setup.bash
 roscore
 ```
-In another window start checking the topic "kthfs/result":
+___
+In another terminal start checking the topic "kthfs/result":
 ```
 source devel/setup.bash
 rostopic echo kthfs/result
 ```
-In the third window launch the nodes with:
+__
+In the third terminal launch the nodes with:
 ```
 cd /root/kthfsdv/src/exc1
 roslaunch launch.launch
 ```
+___
 Then check the rostopic echo window if it is working.
