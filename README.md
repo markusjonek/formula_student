@@ -56,7 +56,7 @@ In another terminal start checking the topic "kthfs/result":
 source devel/setup.bash
 rostopic echo kthfs/result
 ```
-__
+___
 In the third terminal launch the nodes with:
 ```
 cd /root/kthfsdv/src/exc1
