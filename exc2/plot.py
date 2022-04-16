@@ -12,8 +12,8 @@ class Plot:
         self.y_max = y_max
         self.x_values = []
         self.y_values = []
-        self.index = count()
         self.unit = unit
+        self.x_test = 0
 
     def h(self, t):
         if self.unit == "degrees":
@@ -31,13 +31,17 @@ class Plot:
         plt.show()
 
     def animate_helper(self, i):
-        t = next(self.index)
-        self.x_values.append(t)
-        self.y_values.append(self.h(t))
+        if self.x_test > self.x_max:
+            self.x_test = 0
+            self.x_values = []
+            self.y_values = []
+        self.x_values.append(self.x_test)
+        self.y_values.append(self.h(self.x_test))
         plt.cla()
         plt.plot(self.x_values, self.y_values)
         plt.xlim([self.x_min, self.x_max])
         plt.ylim([self.y_min, self.y_max])
+        self.x_test += 1
 
     def live_animation(self):
         self.x_values = []
@@ -49,7 +53,7 @@ class Plot:
 
 
 
-hej = Plot(0, 300, 0, 1600)
+hej = Plot(0, 50, 0, 1600)
 hej.live_animation()
 
 
