@@ -64,13 +64,32 @@ To run the plotting you will need matplotlib and numpy
 pip3 install numpy
 pip3 install matplotlib
 ````
-Then to run the code just do:
+Then to run the code do:
 ````
-python3 best_plot.py
+python3 plot.py function color
+````
+where function can be "live" or "simple" and color can be "blue", "green" or "red". For example:
+````
+python3 plot.py live blue
 # or
-python3 plot.py
+python3 plot.py simple green
 ````
-Here is a screenshot of best_plot.py (note that the plots are in degrees (not radians) as default):
+
+
+
+
+
+Here are screenshots of plot.py:
+
+````
+python3 plot.py live blue
+````
 
 
 ![figure4](https://user-images.githubusercontent.com/17691221/163716404-1d4028ad-2824-4190-8ab9-c43f73b8aba7.png)
+___
+
+````
+python3 plot.py simple red
+````
+![figure2](https://user-images.githubusercontent.com/17691221/163728309-4fb8025b-9999-40b3-8a0d-dab1e5d5c1bc.png)
