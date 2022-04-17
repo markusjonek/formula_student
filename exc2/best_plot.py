@@ -82,7 +82,8 @@ class Animator(FuncAnimation):
 
 
 class Plot:
-    def __init__(self, x_min, x_max, y_min, y_max, grid_button, save_button):
+    """ Class for plotting a function """
+    def __init__(self, x_min, x_max, y_min, y_max, grid_button=True, save_button=True):
         self.x_min = x_min
         self.x_max = x_max
         self.y_min = y_min
@@ -100,6 +101,7 @@ class Plot:
             self.save_button()
 
     def grid_button(self):
+        """ Adds grid on/off button. """
         gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
         self.grid_button = Button(gridax, label='#')
         self.grid_button.on_clicked(self.add_grid)
@@ -113,15 +115,14 @@ class Plot:
             self.n += 1
 
     def save_button(self):
+        """ Adds save button. """
         saveax = plt.axes([0.82, 0.9, 0.08, 0.05])
         self.save_button = Button(saveax, label='Save')
         self.save_button.on_clicked(self.save_figure)
         self.file_index = 1
 
     def save_figure(self, event=None):
-        """
-        Saves the current figure with a unique index, ex. "figure5".
-        """
+        """ Saves the current figure (image) with a unique index, ex. "figure5". """
         file_names = os.listdir('./')
         indexes = []
         for file_name in file_names:
@@ -134,18 +135,28 @@ class Plot:
 
         plt.savefig("figure" + index + ".png")
 
-    def h(self, t):
-        return 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * t * np.pi / 180))
-
     def plot_function(self, i):
+        """ The function to run at each update in the animation """
         x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
-        y_values = self.h(x_values)  # *pi/180 for plot in degrees
+        y_values = self.func(x_values)  # *pi/180 for plot in degrees
         self.point.set_data(x_values, y_values)
 
-    def live_animate(self):
+    def live_animate(self, math_func):
+        """ Animates the plot_funtion """
+        self.func = math_func
         animation = Animator(self.fig, self.plot_function, self.x_min, self.x_max)
         plt.show()
 
+    def simple_plot(self, math_func):
+        x_values = np.linspace(self.x_min, self.x_max, 2000+(self.x_max - self.x_min)*100)
+        y_values = math_func(x_values)  # *pi/180 for plot in degrees
+        self.point.set_data(x_values, y_values)
+        plt.show()
 
-plot = Plot(0, 1000, -100, 1500, grid_button=True, save_button=True)
-plot.live_animate()
+
+def h(t):
+    return 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * t * np.pi / 180))
+
+
+plot = Plot(0, 1000, -100, 1500, grid_button=True, save_button=False)
+plot.simple_plot(h)
