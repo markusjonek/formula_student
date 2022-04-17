@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Button, Slider
-import os
+import os, sys
+
 
 class Animator(FuncAnimation):
     """ Inherites the capabilities of FuncAnimation with extra features.
@@ -180,9 +181,32 @@ class Plot:
 def h(t):
     return 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * t * np.pi / 180))
 
+
 def g(t):
     return 200 * np.sin(t / 20) + t
 
 
-plot = Plot([0, 1000, 0, 1500], grid_button=True, save_button=True)
-plot.live_animate(h, "green")
+def main():
+    plot = Plot([0, 1000, 0, 1500], grid_button=True, save_button=True)
+    if len(sys.argv) > 2:
+        if sys.argv[2] in ["green, blue, red"]:
+            color = sys.argv[2]
+        else:
+            color = "blue"
+            print("wrong color")
+        if sys.argv[1] == "simple":
+            plot.simple_plot(h, color)
+        elif sys.argv[1] == "live":
+            plot.live_animate(h, color)
+        else:
+            print("wrong function")
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == "simple":
+            plot.simple_plot(h)
+        elif sys.argv[1] == "live":
+            plot.live_animate(h)
+        else:
+            print("wrong function")
+
+
+main()
