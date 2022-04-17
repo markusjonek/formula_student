@@ -160,18 +160,18 @@ class Plot:
         y_values = self.math_func(x_values)  # *pi/180 for plot in degrees
         self.point.set_data(x_values, y_values)
 
-    def live_animate(self, math_func, color):
+    def live_animate(self, math_func, line_color="blue"):
         """ Animates the plot_funtion """
         self.math_func = math_func
-        self.point, = self.ax.plot([], [], color=color)
+        self.point, = self.ax.plot([], [], color=line_color)
         animation = Animator(self.fig, self.plot_function, self.x_min, self.x_max)
         plt.show()
 
-    def simple_plot(self, math_func, base_color):
+    def simple_plot(self, math_func, line_color="blue"):
         """ plots the whole function at once, also adds the color bar"""
         self.x_simple = np.linspace(self.x_min, self.x_max, 2000 + (self.x_max - self.x_min) * 100)
         self.y_simple = math_func(self.x_simple)
-        self.ax.plot(self.x_simple, self.y_simple, color=base_color)
+        self.ax.plot(self.x_simple, self.y_simple, color=line_color)
         plt.subplots_adjust(bottom=0.2)
         self.color_bar()
         plt.show()
@@ -185,4 +185,4 @@ def g(t):
 
 
 plot = Plot([0, 1000, 0, 1500], grid_button=True, save_button=True)
-plot.live_animate(g, "green")
+plot.live_animate(h, "green")
