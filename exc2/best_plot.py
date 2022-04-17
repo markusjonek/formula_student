@@ -11,7 +11,7 @@ class Animator(FuncAnimation):
     Slider for quick scroll through x-values.
     Button to save the figure with custom name.
     """
-    def __init__(self, fig, plot_function, x_min=0, x_max=100):
+    def __init__(self, fig, plot_function, x_min, x_max):
         self.fig = fig
         self.plot_function = plot_function
         self.x_min = x_min
@@ -37,12 +37,6 @@ class Animator(FuncAnimation):
         slideax = plt.axes([0.33, widget_y_pos, 0.3, widget_height])
         self.slider = Slider(slideax, '', self.x_min, self.x_max, valinit=self.i)
         self.slider.on_changed(self.set_pos)
-
-        # save button
-        saveax = plt.axes([0.82, widget_y_pos, button_width, widget_height])
-        self.save_button = Button(saveax, label='Save')
-        self.save_button.on_clicked(self.save_figure)
-        self.file_index = 1
 
         FuncAnimation.__init__(self, self.fig, self.update_slider, frames=self.frame_updater(), interval=15)
 
@@ -86,6 +80,44 @@ class Animator(FuncAnimation):
         """
         self.slider.set_val(i)
 
+
+class Plot:
+    def __init__(self, x_min, x_max, y_min, y_max, grid_button, save_button):
+        self.x_min = x_min
+        self.x_max = x_max
+        self.y_min = y_min
+        self.y_max = y_max
+        self.fig, self.ax = plt.subplots()
+        self.point, = self.ax.plot([], [])
+
+        self.ax.set_xlim(x_min, x_max)
+        self.ax.set_ylim(y_min, y_max)
+
+        if grid_button:
+            self.grid_button()
+
+        if save_button:
+            self.save_button()
+
+    def grid_button(self):
+        gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
+        self.grid_button = Button(gridax, label='#')
+        self.grid_button.on_clicked(self.add_grid)
+        self.n = 1
+
+    def add_grid(self, event=None):
+            if self.n % 2:
+                self.ax.grid(True)
+            else:
+                self.ax.grid(False)
+            self.n += 1
+
+    def save_button(self):
+        saveax = plt.axes([0.82, 0.9, 0.08, 0.05])
+        self.save_button = Button(saveax, label='Save')
+        self.save_button.on_clicked(self.save_figure)
+        self.file_index = 1
+
     def save_figure(self, event=None):
         """
         Saves the current figure with a unique index, ex. "figure5".
@@ -102,38 +134,18 @@ class Animator(FuncAnimation):
 
         plt.savefig("figure" + index + ".png")
 
+    def h(self, t):
+        return 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * t * np.pi / 180))
 
-fig, ax = plt.subplots()
+    def plot_function(self, i):
+        x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
+        y_values = self.h(x_values)  # *pi/180 for plot in degrees
+        self.point.set_data(x_values, y_values)
 
-x_min = -1000
-x_max = 1000
-y_min = -200
-y_max = 2000
-
-ax.set_xlim(x_min, x_max)
-ax.set_ylim(y_min, y_max)
-point, = ax.plot([], [])
-
-# Grid or not
-n = 1
-def add_grid(event=None):
-    global n
-    if n%2:
-        ax.grid(True)
-    else:
-        ax.grid(False)
-    n += 1
-gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
-grid_button = Button(gridax, label='#')
-grid_button.on_clicked(add_grid)
+    def live_animate(self):
+        animation = Animator(self.fig, self.plot_function, self.x_min, self.x_max)
+        plt.show()
 
 
-def plot_function(i):
-    x_val = np.linspace(x_min, i, abs(i*100)+2000)
-    y_val = 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * x_val * np.pi / 180)) # *pi/180 for plot in degrees
-    point.set_data(x_val, y_val)
-
-
-animation = Animator(fig, plot_function, x_min, x_max)
-
-plt.show()
+plot = Plot(0, 1000, -100, 1500, grid_button=True, save_button=True)
+plot.live_animate()
