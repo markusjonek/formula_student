@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from matplotlib.widgets import Button, Slider, TextBox
+from matplotlib.widgets import Button, Slider
 import os
 
 class Animator(FuncAnimation):
@@ -11,30 +11,34 @@ class Animator(FuncAnimation):
     Slider for quick scroll through x-values.
     Button to save the figure with custom name.
     """
-    def __init__(self, fig, plot_function, mini=0, maxi=100):
-        self.i = mini
-        self.min = mini
-        self.max = maxi
-        self.runs = True
+    def __init__(self, fig, plot_function, x_min=0, x_max=100):
         self.fig = fig
         self.plot_function = plot_function
+        self.x_min = x_min
+        self.x_max = x_max
+        self.i = x_min
+        self.runs = True
 
         widget_y_pos = 0.9
         button_width = 0.08
         widget_height = 0.05
 
+        # start button
         startax = plt.axes([0.13, widget_y_pos, button_width, widget_height])
         self.start_button = Button(startax, label='$\u25B6$')
         self.start_button.on_clicked(self.start)
 
+        # stop button
         stopax = plt.axes([0.22, widget_y_pos, button_width, widget_height])
         self.stop_button = Button(stopax, label='$\u25A0$')
         self.stop_button.on_clicked(self.stop)
 
+        # slider
         slideax = plt.axes([0.33, widget_y_pos, 0.4, widget_height])
-        self.slider = Slider(slideax, '', self.min, self.max, valinit=self.i)
+        self.slider = Slider(slideax, '', self.x_min, self.x_max, valinit=self.i)
         self.slider.on_changed(self.set_pos)
 
+        # save button
         saveax = plt.axes([0.82, widget_y_pos, button_width, widget_height])
         self.save_button = Button(saveax, label='Save')
         self.save_button.on_clicked(self.save_figure)
@@ -47,7 +51,7 @@ class Animator(FuncAnimation):
         Responsible for what happens between frames. Stops the slider if it reaches x_max.
         """
         while self.runs:
-            if self.i >= self.max:
+            if self.i >= self.x_max:
                 self.stop()
             yield self.i
             self.i += 1
@@ -56,11 +60,11 @@ class Animator(FuncAnimation):
         """
         Starts the plot. Replays from start if the plot has reached the end.
         """
-        if self.i < self.max:
+        if self.i < self.x_max:
             self.runs=True
             self.event_source.start()
-        if self.i == self.max:
-            self.i = self.min
+        if self.i == self.x_max:
+            self.i = self.x_min
 
     def stop(self, event=None):
         """
@@ -91,7 +95,12 @@ class Animator(FuncAnimation):
         for file_name in file_names:
             if file_name[0:6] == "figure":
                 indexes.append(int(file_name[6]))
-        plt.savefig("figure" + str(max(indexes) + 1) + ".png")
+        if len(indexes) == 0:
+            index = "1"
+        else:
+            index = str(max(indexes) + 1)
+
+        plt.savefig("figure" + index + ".png")
 
 
 fig, ax = plt.subplots()
