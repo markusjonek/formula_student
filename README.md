@@ -70,7 +70,7 @@ python3 better_plot.py
 # or
 python3 plot.py
 ````
-Here is a screenshot of better_plot.py:
+Here is a screenshot of better_plot.py (note that the plot is in degrees as default):
 
 
 ![figure4](https://user-images.githubusercontent.com/17691221/163716404-1d4028ad-2824-4190-8ab9-c43f73b8aba7.png)
