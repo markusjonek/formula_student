@@ -53,3 +53,24 @@ cd ~/kthfsdv/src/exc1
 roslaunch launch.launch
 ```
 Then check the "rostopic echo" window if it is working.
+
+
+Here is a screenshot of PlotJuggler:
+![exercise1_plot](https://user-images.githubusercontent.com/17691221/163716334-0ec68367-8a8b-4977-9a72-8f2e1e72ebe0.png)
+___
+# Exercise 2
+To run the plotting you will need matplotlib and numpy
+````
+pip3 install numpy
+pip3 install matplotlib
+````
+Then to run the code just do:
+````
+python3 better_plot.py
+# or
+python3 plot.py
+````
+Here is a screenshot of better_plot.py:
+
+
+![figure4](https://user-images.githubusercontent.com/17691221/163716404-1d4028ad-2824-4190-8ab9-c43f73b8aba7.png)
