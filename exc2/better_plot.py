@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Button, Slider
-import mpl_toolkits.axes_grid1
+
 
 class Player(FuncAnimation):
     def __init__(self, fig, func, frames=None, init_func=None, fargs=None,
-                 save_count=None, mini=0, maxi=100, pos=(0.125, 0.92), **kwargs):
+                 save_count=None, mini=0, maxi=100, **kwargs):
         self.i = mini
         self.min = mini
         self.max = maxi
@@ -14,11 +14,21 @@ class Player(FuncAnimation):
         self.forwards = True
         self.fig = fig
         self.func = func
-        self.setup(pos)
-        self.i_list = []
+        self.setup_buttons_slider()
         FuncAnimation.__init__(self,self.fig, self.update, frames=self.play(),
                                            init_func=init_func, fargs=fargs,
                                            save_count=save_count, **kwargs )
+
+    def setup_buttons_slider(self):
+        startax = plt.axes([0.13, 0.9, 0.08, 0.05])
+        stopax = plt.axes([0.24, 0.9, 0.08, 0.05])
+        slideax = plt.axes([0.37, 0.9, 0.5, 0.05])
+        self.button_stop = Button(stopax, label='$\u25A0$')
+        self.button_forward = Button(startax, label='$\u25B6$')
+        self.button_stop.on_clicked(self.stop)
+        self.button_forward.on_clicked(self.forward)
+        self.slider = Slider(slideax, '', self.min, self.max, valinit=self.i)
+        self.slider.on_changed(self.set_pos)
 
     def play(self):
         while self.runs:
@@ -28,8 +38,11 @@ class Player(FuncAnimation):
             self.i += 1
 
     def start(self):
-        self.runs=True
-        self.event_source.start()
+        if self.i < self.max:
+            self.runs=True
+            self.event_source.start()
+        if self.i == self.max:
+            self.i = self.min
 
     def stop(self, event=None):
         self.runs = False
@@ -39,23 +52,8 @@ class Player(FuncAnimation):
         self.forwards = True
         self.start()
 
-    def setup(self, pos):
-        playerax = self.fig.add_axes([pos[0],pos[1], 0.64, 0.04])
-        divider = mpl_toolkits.axes_grid1.make_axes_locatable(playerax)
-        sax = divider.append_axes("right", size="80%", pad=0.05)
-        fax = divider.append_axes("right", size="80%", pad=0.05)
-        sliderax = divider.append_axes("right", size="500%", pad=0.07)
-        self.button_stop = Button(sax, label='$\u25A0$')
-        self.button_forward = Button(fax, label='$\u25B6$')
-        self.button_stop.on_clicked(self.stop)
-        self.button_forward.on_clicked(self.forward)
-        self.slider = Slider(sliderax, '',
-                                                self.min, self.max, valinit=self.i)
-        self.slider.on_changed(self.set_pos)
-
     def set_pos(self, i):
         self.i = int(self.slider.val)
-        self.i_list.append(self.i)
         self.func(self.i)
 
     def update(self,i):
@@ -73,11 +71,6 @@ point, = ax.plot([], [])
 x_val = []
 y_val = []
 
-def steps(i):
-    if i != 0:
-        return 100
-    else:
-        return abs(i*100)
 
 def update(i):
     global x_val, y_val
