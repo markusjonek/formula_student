@@ -189,7 +189,7 @@ def g(t):
 def main():
     plot = Plot([-500, 1000, -500, 2000], grid_button=True, save_button=True)
     if len(sys.argv) > 2:
-        if sys.argv[2] in ["green, blue, red"]:
+        if sys.argv[2] in ["green", "blue", "red"]:
             color = sys.argv[2]
         else:
             color = "blue"
