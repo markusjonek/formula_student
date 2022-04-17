@@ -84,9 +84,9 @@ Here are screenshots of plot.py:
 ````
 python3 plot.py live blue
 ````
+![figure3](https://user-images.githubusercontent.com/17691221/163729055-20b1663d-f542-49a2-a643-dfc49b821de5.png)
 
 
-![figure4](https://user-images.githubusercontent.com/17691221/163716404-1d4028ad-2824-4190-8ab9-c43f73b8aba7.png)
 ___
 
 ````
