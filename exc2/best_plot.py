@@ -5,12 +5,10 @@ from matplotlib.widgets import Button, Slider
 import os
 
 class Animator(FuncAnimation):
-    """
-    Inherites the capabilities of FuncAnimation with extra features.
+    """ Inherites the capabilities of FuncAnimation with extra features.
     Buttons for start, stop and save figure.
     Slider for quick scroll through x-values.
-    Button to save the figure with custom name.
-    """
+    Button to save the figure with custom name. """
     def __init__(self, fig, plot_function, x_min, x_max):
         self.fig = fig
         self.plot_function = plot_function
@@ -41,9 +39,7 @@ class Animator(FuncAnimation):
         FuncAnimation.__init__(self, self.fig, self.update_slider, frames=self.frame_updater(), interval=15)
 
     def frame_updater(self):
-        """
-        Responsible for what happens between frames. Stops the slider if it reaches x_max.
-        """
+        """ Responsible for what happens between frames. Stops the slider if it reaches x_max. """
         while self.runs:
             if self.i >= self.x_max:
                 self.stop()
@@ -51,9 +47,7 @@ class Animator(FuncAnimation):
             self.i += 1
 
     def start(self, event=None):
-        """
-        Starts the plot. Replays from start if the plot has reached the end.
-        """
+        """ Starts the plot. Replays from start if the plot has reached the end. """
         if self.i < self.x_max:
             self.runs=True
             self.event_source.start()
@@ -61,35 +55,29 @@ class Animator(FuncAnimation):
             self.i = self.x_min
 
     def stop(self, event=None):
-        """
-        Stops the plot
-        """
+        """ Stops the plot """
         self.runs = False
         self.event_source.stop()
 
     def set_pos(self, i):
-        """
-        Gives the command to the given plot_funtion to plot up until the slider value.
-        """
+        """ Gives the command to the given plot_funtion to plot up until the slider value. """
         self.i = int(self.slider.val)
         self.plot_function(self.i)
 
     def update_slider(self, i):
-        """
-        Updates the slider position as the animation is running.
-        """
+        """ Updates the slider position as the animation is running. """
         self.slider.set_val(i)
 
 
 class Plot:
     """ Class for plotting a function """
-    def __init__(self, dim, line_color="blue", grid_button=True, save_button=True):
+    def __init__(self, dim, grid_button=True, save_button=True):
         self.x_min = dim[0]
         self.x_max = dim[1]
         self.y_min = dim[2]
         self.y_max = dim[3]
         self.fig, self.ax = plt.subplots()
-        self.point, = self.ax.plot([], [], color=line_color)
+        self.point, = self.ax.plot([], [])
 
         self.ax.set_xlim(self.x_min, self.x_max)
         self.ax.set_ylim(self.y_min, self.y_max)
@@ -100,9 +88,6 @@ class Plot:
         if save_button:
             self.add_save_button()
 
-        #plt.subplots_adjust(bottom=0.2)
-        #self.color_bar()
-
     def add_grid_button(self):
         """ Adds grid on/off button. """
         gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
@@ -112,6 +97,7 @@ class Plot:
 
     def grid(self, event=None):
         """ Adds/turns off grid"""
+        self.fig.canvas.draw_idle()
         if self.n % 2:
             self.ax.grid(True)
         else:
@@ -140,6 +126,7 @@ class Plot:
         plt.savefig("figure" + index + ".png")
 
     def color_bar(self):
+        """ Adds color-picker-bar """
         blueax = plt.axes([0.25, 0.06, 0.08, 0.05])
         self.blue_button = Button(blueax, label="", color="blue", hovercolor="blue")
         self.blue_button.on_clicked(self.blue_line)
@@ -153,38 +140,49 @@ class Plot:
         self.red_button.on_clicked(self.red_line)
 
     def blue_line(self, event=None):
-        self.point, = self.ax.plot([], [], color="blue")
+        """ changes line to blue"""
+        self.fig.canvas.draw_idle()
+        self.ax.plot(self.x_simple, self.y_simple, color="blue")
 
     def green_line(self, event=None):
-        self.point, = self.ax.plot([], [], color="green")
+        """ changes line to green """
+        self.fig.canvas.draw_idle()
+        self.ax.plot(self.x_simple, self.y_simple, color="green")
 
     def red_line(self, event=None):
-        self.point, = self.ax.plot([], [], color="red")
+        """ changes line to red """
+        self.fig.canvas.draw_idle()
+        self.ax.plot(self.x_simple, self.y_simple, color="red")
 
     def plot_function(self, i):
         """ The function to run at each update in the animation """
         x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
-        y_values = self.func(x_values)  # *pi/180 for plot in degrees
+        y_values = self.math_func(x_values)  # *pi/180 for plot in degrees
         self.point.set_data(x_values, y_values)
 
-    def live_animate(self, math_func):
+    def live_animate(self, math_func, color):
         """ Animates the plot_funtion """
-        self.func = math_func
+        self.math_func = math_func
+        self.point, = self.ax.plot([], [], color=color)
         animation = Animator(self.fig, self.plot_function, self.x_min, self.x_max)
         plt.show()
 
-    def simple_plot(self, math_func):
-        x_values = np.linspace(self.x_min, self.x_max, 2000+(self.x_max - self.x_min)*100)
-        y_values = math_func(x_values)  # *pi/180 for plot in degrees
+    def simple_plot(self, math_func, base_color):
+        """ plots the whole function at once, also adds the color bar"""
+        self.x_simple = np.linspace(self.x_min, self.x_max, 2000 + (self.x_max - self.x_min) * 100)
+        self.y_simple = math_func(self.x_simple)
+        self.ax.plot(self.x_simple, self.y_simple, color=base_color)
         plt.subplots_adjust(bottom=0.2)
         self.color_bar()
-        self.point.set_data(x_values, y_values)
         plt.show()
 
 
 def h(t):
     return 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * t * np.pi / 180))
 
+def g(t):
+    return 200 * np.sin(t / 20) + t
 
-plot = Plot([0, 1000, -100, 1500], line_color="green", grid_button=True, save_button=True)
-plot.simple_plot(h)
+
+plot = Plot([0, 1000, 0, 1500], grid_button=True, save_button=True)
+plot.live_animate(g, "green")
