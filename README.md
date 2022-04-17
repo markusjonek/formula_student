@@ -66,7 +66,7 @@ pip3 install matplotlib
 ````
 Then to run the code just do:
 ````
-python3 better_plot.py
+python3 best_plot.py
 # or
 python3 plot.py
 ````
