@@ -187,13 +187,13 @@ def g(t):
 
 
 def main():
-    plot = Plot([0, 1000, 0, 1500], grid_button=True, save_button=True)
+    plot = Plot([-500, 1000, -500, 2000], grid_button=True, save_button=True)
     if len(sys.argv) > 2:
         if sys.argv[2] in ["green, blue, red"]:
             color = sys.argv[2]
         else:
             color = "blue"
-            print("wrong color")
+            print("wrong color, picked blue")
         if sys.argv[1] == "simple":
             plot.simple_plot(h, color)
         elif sys.argv[1] == "live":
