@@ -83,38 +83,42 @@ class Animator(FuncAnimation):
 
 class Plot:
     """ Class for plotting a function """
-    def __init__(self, x_min, x_max, y_min, y_max, grid_button=True, save_button=True):
-        self.x_min = x_min
-        self.x_max = x_max
-        self.y_min = y_min
-        self.y_max = y_max
+    def __init__(self, dim, line_color="blue", grid_button=True, save_button=True):
+        self.x_min = dim[0]
+        self.x_max = dim[1]
+        self.y_min = dim[2]
+        self.y_max = dim[3]
         self.fig, self.ax = plt.subplots()
-        self.point, = self.ax.plot([], [])
+        self.point, = self.ax.plot([], [], color=line_color)
 
-        self.ax.set_xlim(x_min, x_max)
-        self.ax.set_ylim(y_min, y_max)
+        self.ax.set_xlim(self.x_min, self.x_max)
+        self.ax.set_ylim(self.y_min, self.y_max)
 
         if grid_button:
-            self.grid_button()
+            self.add_grid_button()
 
         if save_button:
-            self.save_button()
+            self.add_save_button()
 
-    def grid_button(self):
+        #plt.subplots_adjust(bottom=0.2)
+        #self.color_bar()
+
+    def add_grid_button(self):
         """ Adds grid on/off button. """
         gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
         self.grid_button = Button(gridax, label='#')
-        self.grid_button.on_clicked(self.add_grid)
+        self.grid_button.on_clicked(self.grid)
         self.n = 1
 
-    def add_grid(self, event=None):
-            if self.n % 2:
-                self.ax.grid(True)
-            else:
-                self.ax.grid(False)
-            self.n += 1
+    def grid(self, event=None):
+        """ Adds/turns off grid"""
+        if self.n % 2:
+            self.ax.grid(True)
+        else:
+            self.ax.grid(False)
+        self.n += 1
 
-    def save_button(self):
+    def add_save_button(self):
         """ Adds save button. """
         saveax = plt.axes([0.82, 0.9, 0.08, 0.05])
         self.save_button = Button(saveax, label='Save')
@@ -135,6 +139,28 @@ class Plot:
 
         plt.savefig("figure" + index + ".png")
 
+    def color_bar(self):
+        blueax = plt.axes([0.25, 0.06, 0.08, 0.05])
+        self.blue_button = Button(blueax, label="", color="blue", hovercolor="blue")
+        self.blue_button.on_clicked(self.blue_line)
+
+        greenax = plt.axes([0.45, 0.06, 0.08, 0.05])
+        self.green_button = Button(greenax, label='', color="green", hovercolor="green")
+        self.green_button.on_clicked(self.green_line)
+
+        redax = plt.axes([0.65, 0.06, 0.08, 0.05])
+        self.red_button = Button(redax, label='', color="red", hovercolor="red")
+        self.red_button.on_clicked(self.red_line)
+
+    def blue_line(self, event=None):
+        self.point, = self.ax.plot([], [], color="blue")
+
+    def green_line(self, event=None):
+        self.point, = self.ax.plot([], [], color="green")
+
+    def red_line(self, event=None):
+        self.point, = self.ax.plot([], [], color="red")
+
     def plot_function(self, i):
         """ The function to run at each update in the animation """
         x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
@@ -150,6 +176,8 @@ class Plot:
     def simple_plot(self, math_func):
         x_values = np.linspace(self.x_min, self.x_max, 2000+(self.x_max - self.x_min)*100)
         y_values = math_func(x_values)  # *pi/180 for plot in degrees
+        plt.subplots_adjust(bottom=0.2)
+        self.color_bar()
         self.point.set_data(x_values, y_values)
         plt.show()
 
@@ -158,5 +186,5 @@ def h(t):
     return 3 * np.pi * np.exp(-5 * np.sin(2 * np.pi * t * np.pi / 180))
 
 
-plot = Plot(0, 1000, -100, 1500, grid_button=True, save_button=False)
+plot = Plot([0, 1000, -100, 1500], line_color="green", grid_button=True, save_button=True)
 plot.simple_plot(h)
