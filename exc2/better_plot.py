@@ -34,7 +34,7 @@ class Animator(FuncAnimation):
         self.stop_button.on_clicked(self.stop)
 
         # slider
-        slideax = plt.axes([0.33, widget_y_pos, 0.4, widget_height])
+        slideax = plt.axes([0.33, widget_y_pos, 0.3, widget_height])
         self.slider = Slider(slideax, '', self.x_min, self.x_max, valinit=self.i)
         self.slider.on_changed(self.set_pos)
 
@@ -113,6 +113,19 @@ y_max = 2000
 ax.set_xlim(x_min, x_max)
 ax.set_ylim(y_min, y_max)
 point, = ax.plot([], [])
+
+# Grid or not
+n = 1
+def add_grid(event=None):
+    global n
+    if n%2:
+        ax.grid(True)
+    else:
+        ax.grid(False)
+    n += 1
+gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
+grid_button = Button(gridax, label='#')
+grid_button.on_clicked(add_grid)
 
 
 def plot_function(i):
