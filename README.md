@@ -68,7 +68,10 @@ Then to run the code do:
 ````
 python3 plot.py function color
 ````
-where function can be "live" or "simple" and color can be "blue", "green" or "red". For example:
+where function can be "live" or "simple" and color can be "blue", "green" or "red". 
+
+
+For example:
 ````
 python3 plot.py live blue
 # or
