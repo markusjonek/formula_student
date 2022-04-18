@@ -50,7 +50,7 @@ class Animator(FuncAnimation):
 
     def start(self, event=None):
         """ Starts the plot. Replays from start if the plot has reached the end. """
-        if self.i < self.x_max:
+        if self.i <= self.x_max:
             self.runs=True
             self.event_source.start()
         if self.i == self.x_max:
