@@ -1,8 +1,9 @@
-import numpy as np
+import os
+import sys
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Button, Slider
-import os, sys
 
 
 class Animator(FuncAnimation):
@@ -77,9 +78,9 @@ class Plot:
         self.x_max = dim[1]
         self.y_min = dim[2]
         self.y_max = dim[3]
+
         self.fig, self.ax = plt.subplots()
         self.point, = self.ax.plot([], [])
-
         self.ax.set_xlim(self.x_min, self.x_max)
         self.ax.set_ylim(self.y_min, self.y_max)
 
@@ -188,25 +189,11 @@ def g(t):
 
 def main():
     plot = Plot([-500, 1000, -500, 2000], grid_button=True, save_button=True)
-    if len(sys.argv) > 2:
-        if sys.argv[2] in ["green", "blue", "red"]:
-            color = sys.argv[2]
-        else:
-            color = "blue"
-            print("wrong color, picked blue")
-        if sys.argv[1] == "simple":
-            plot.simple_plot(h, color)
-        elif sys.argv[1] == "live":
-            plot.live_animate(h, color)
-        else:
-            print("wrong function")
-    elif len(sys.argv) == 2:
-        if sys.argv[1] == "simple":
-            plot.simple_plot(h)
-        elif sys.argv[1] == "live":
-            plot.live_animate(h)
-        else:
-            print("wrong function")
+    functions = {"simple": plot.simple_plot, "live": plot.live_animate}
+    try:
+        functions[sys.argv[1]](h, sys.argv[2])
+    except (KeyError, ValueError, IndexError):
+        print('Choose "live" or "simple" as function and a valid matplotlib-color.')
 
 
 main()
