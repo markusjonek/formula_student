@@ -80,7 +80,6 @@ class Plot:
         self.y_max = dim[3]
 
         self.fig, self.ax = plt.subplots()
-        self.point, = self.ax.plot([], [])
         self.ax.set_xlim(self.x_min, self.x_max)
         self.ax.set_ylim(self.y_min, self.y_max)
 
@@ -118,8 +117,8 @@ class Plot:
         self.file_index = 1
 
     def save_figure(self, event=None):
-        """ Saves the current figure (image) with a unique index, ex. "figure5". """
-        file_names = os.listdir('./')
+        """ Saves the current figure (current path) with a unique index, ex. "figure5". """
+        file_names = os.listdir(os.getcwd())
         indexes = []
         for file_name in file_names:
             if file_name[0:6] == "figure":
@@ -128,7 +127,6 @@ class Plot:
             index = "1"
         else:
             index = str(max(indexes) + 1)
-
         plt.savefig("figure" + index + ".png")
 
     def activate_color_bar(self):
@@ -147,16 +145,14 @@ class Plot:
 
     def change_line_color(self, color, event=None):
         """ changes line to blue"""
-        self.fig.canvas.draw_idle()
-        self.point.set_data([], [])
+        self.point.set_data([], [])  # Clears current graph
         self.point, = self.ax.plot([], [], color)
-        self.point.set_data([], [])
         self.point.set_data(self.x_values, self.y_values)
 
     def plot_function(self, i):
         """ The function to run at each update in the animation """
         self.x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
-        self.y_values = self.math_func(self.x_values)  # *pi/180 for plot in degrees
+        self.y_values = self.math_func(self.x_values)
         self.point.set_data(self.x_values, self.y_values)
 
     def live_plot(self, math_func, line_color="blue"):
