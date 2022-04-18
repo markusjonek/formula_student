@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Button, Slider
-
+import tikzplotlib
 
 class Animator(FuncAnimation):
     """ Inherites the capabilities of FuncAnimation with extra features.
@@ -127,6 +127,7 @@ class Plot:
             index = "1"
         else:
             index = str(max(indexes) + 1)
+        tikzplotlib.save("figure" + index + ".tex")
         plt.savefig("figure" + index + ".png")
 
     def activate_color_bar(self):
@@ -152,7 +153,7 @@ class Plot:
 
     def plot_function(self, i):
         """ The function to run at each update in the animation """
-        self.x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
+        self.x_values = np.linspace(self.x_min, i, 2000) #abs(i * 100) + 2000)
         self.y_values = self.math_func(self.x_values)
         self.point.set_data(self.x_values, self.y_values)
 
