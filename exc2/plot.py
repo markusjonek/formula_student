@@ -34,7 +34,7 @@ class Animator(FuncAnimation):
         self.stop_button.on_clicked(self.stop)
 
         # slider
-        slideax = plt.axes([0.33, widget_y_pos, 0.3, widget_height])
+        slideax = plt.axes([0.32, widget_y_pos, 0.29, widget_height])
         self.slider = Slider(slideax, '', self.x_min, self.x_max, valinit=self.i)
         self.slider.on_changed(self.set_pos)
 
