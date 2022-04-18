@@ -73,7 +73,7 @@ class Animator(FuncAnimation):
 
 class Plot:
     """ Class for plotting a function """
-    def __init__(self, dim, grid_button=True, save_button=True):
+    def __init__(self, dim, grid_button=True, save_button=True, color_bar=True):
         self.x_min = dim[0]
         self.x_max = dim[1]
         self.y_min = dim[2]
@@ -85,12 +85,16 @@ class Plot:
         self.ax.set_ylim(self.y_min, self.y_max)
 
         if grid_button:
-            self.add_grid_button()
+            self.activate_grid_button()
 
         if save_button:
-            self.add_save_button()
+            self.activate_save_button()
 
-    def add_grid_button(self):
+        if color_bar:
+            plt.subplots_adjust(bottom=0.2)
+            self.activate_color_bar()
+
+    def activate_grid_button(self):
         """ Adds grid on/off button. """
         gridax = plt.axes([0.72, 0.9, 0.08, 0.05])
         self.grid_button = Button(gridax, label='#')
@@ -106,7 +110,7 @@ class Plot:
             self.ax.grid(False)
         self.n += 1
 
-    def add_save_button(self):
+    def activate_save_button(self):
         """ Adds save button. """
         saveax = plt.axes([0.82, 0.9, 0.08, 0.05])
         self.save_button = Button(saveax, label='Save')
@@ -127,55 +131,39 @@ class Plot:
 
         plt.savefig("figure" + index + ".png")
 
-    def color_bar(self):
+    def activate_color_bar(self):
         """ Adds color-picker-bar """
         blueax = plt.axes([0.25, 0.06, 0.08, 0.05])
         self.blue_button = Button(blueax, label="", color="blue", hovercolor="blue")
-        self.blue_button.on_clicked(self.blue_line)
+        self.blue_button.on_clicked(lambda x: self.change_line_color("blue"))
 
         greenax = plt.axes([0.45, 0.06, 0.08, 0.05])
         self.green_button = Button(greenax, label='', color="green", hovercolor="green")
-        self.green_button.on_clicked(self.green_line)
+        self.green_button.on_clicked(lambda x: self.change_line_color("green"))
 
         redax = plt.axes([0.65, 0.06, 0.08, 0.05])
         self.red_button = Button(redax, label='', color="red", hovercolor="red")
-        self.red_button.on_clicked(self.red_line)
+        self.red_button.on_clicked(lambda x: self.change_line_color("red"))
 
-    def blue_line(self, event=None):
+    def change_line_color(self, color, event=None):
         """ changes line to blue"""
         self.fig.canvas.draw_idle()
-        self.ax.plot(self.x_simple, self.y_simple, color="blue")
-
-    def green_line(self, event=None):
-        """ changes line to green """
-        self.fig.canvas.draw_idle()
-        self.ax.plot(self.x_simple, self.y_simple, color="green")
-
-    def red_line(self, event=None):
-        """ changes line to red """
-        self.fig.canvas.draw_idle()
-        self.ax.plot(self.x_simple, self.y_simple, color="red")
+        self.point.set_data([], [])
+        self.point, = self.ax.plot([], [], color)
+        self.point.set_data([], [])
+        self.point.set_data(self.x_values, self.y_values)
 
     def plot_function(self, i):
         """ The function to run at each update in the animation """
-        x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
-        y_values = self.math_func(x_values)  # *pi/180 for plot in degrees
-        self.point.set_data(x_values, y_values)
+        self.x_values = np.linspace(self.x_min, i, abs(i * 100) + 2000)
+        self.y_values = self.math_func(self.x_values)  # *pi/180 for plot in degrees
+        self.point.set_data(self.x_values, self.y_values)
 
-    def live_animate(self, math_func, line_color="blue"):
-        """ Animates the plot_funtion """
+    def live_plot(self, math_func, line_color="blue"):
+        """ Animates the plot_funtion with help from the Animator class"""
         self.math_func = math_func
         self.point, = self.ax.plot([], [], color=line_color)
         animation = Animator(self.fig, self.plot_function, self.x_min, self.x_max)
-        plt.show()
-
-    def simple_plot(self, math_func, line_color="blue"):
-        """ plots the whole function at once, also adds the color bar"""
-        self.x_simple = np.linspace(self.x_min, self.x_max, 2000 + (self.x_max - self.x_min) * 100)
-        self.y_simple = math_func(self.x_simple)
-        self.ax.plot(self.x_simple, self.y_simple, color=line_color)
-        plt.subplots_adjust(bottom=0.2)
-        self.color_bar()
         plt.show()
 
 
@@ -187,13 +175,5 @@ def g(t):
     return 200 * np.sin(t / 20) + t
 
 
-def main():
-    plot = Plot([-500, 1000, -500, 2000], grid_button=True, save_button=True)
-    functions = {"simple": plot.simple_plot, "live": plot.live_animate}
-    try:
-        functions[sys.argv[1]](h, sys.argv[2])
-    except (KeyError, ValueError, IndexError):
-        print('Choose "live" or "simple" as function and a valid matplotlib-color.')
-
-
-main()
+plot = Plot([-500, 1000, -500, 2000], grid_button=True, save_button=True, color_bar=True)
+plot.live_plot(h, "black")
