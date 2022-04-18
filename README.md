@@ -66,34 +66,9 @@ pip3 install matplotlib
 ````
 Then to run the code do:
 ````
-python3 plot.py "function" "color"
-````
-Choose "live" or "simple" as "function" and a valid matplotlib-color for "color". 
-
-
-
-For example:
-````
-python3 plot.py live blue
-# or
-python3 plot.py simple green
+python3 plot.py
 ````
 
 
-
-
-
-Here are screenshots of plot.py:
-
-````
-python3 plot.py live blue
-````
-![figure3](https://user-images.githubusercontent.com/17691221/163729055-20b1663d-f542-49a2-a643-dfc49b821de5.png)
-
-
-___
-
-````
-python3 plot.py simple red
-````
-![figure2](https://user-images.githubusercontent.com/17691221/163728309-4fb8025b-9999-40b3-8a0d-dab1e5d5c1bc.png)
+Here is a screenshot of plot.py:
+![figure1](https://user-images.githubusercontent.com/17691221/163770054-80a46d23-5a3e-4cbc-9d23-cf9997f22a04.png)
