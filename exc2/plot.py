@@ -68,7 +68,7 @@ class Animator(FuncAnimation):
 
     def update_slider(self, i):
         """ Updates the slider position as the animation is running. """
-        self.slider.set_val(i)
+        self.slider.set_val(int(i))
 
 
 class Plot:
