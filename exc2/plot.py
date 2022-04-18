@@ -145,6 +145,7 @@ class Plot:
 
     def change_line_color(self, color, event=None):
         """ changes line to blue"""
+        self.fig.canvas.draw_idle()
         self.point.set_data([], [])  # Clears current graph
         self.point, = self.ax.plot([], [], color)
         self.point.set_data(self.x_values, self.y_values)
