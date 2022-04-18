@@ -68,7 +68,7 @@ Then to run the code do:
 ````
 python3 plot.py
 ````
-You will have the ability to change line color, add a grid, start/stop, scroll and save the figure as a png.
+You will have the ability to change line color, add a grid, start/stop, scroll and save the figure as .tex and .png.
 
 
 Here is a screenshot of plot.py:
