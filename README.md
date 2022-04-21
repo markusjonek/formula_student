@@ -9,6 +9,7 @@ docker pull kthfsdv/ros-intro
 and run it:
 ```
 docker run -it kthfsdv/ros-intro
+source /opt/ros/melodic/setup.bash
 ```
 Then start two new terminal windows and respectively run:
 ````
@@ -26,7 +27,6 @@ You should now have three terminals in the container.
 ## Get code
 In one of the terminals get the content of exc1 by doing:
 ```
-source /opt/ros/melodic/setup.bash
 mkdir -p ~/kthfsdv/src
 cd ~/kthfsdv/src/
 git clone https://github.com/markusjonek/formula_student.git
