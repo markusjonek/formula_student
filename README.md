@@ -21,7 +21,6 @@ docker exec -it <image name> /bin/bash
 and then insde the container:
 ```
 source /ros_entrypoint.sh
-cd ~/kthfsdv/
 ```
 You should now have three terminals in the container.
 ## Get code
@@ -33,6 +32,7 @@ cd ~/kthfsdv/src/
 git clone https://github.com/markusjonek/formula_student.git
 mv formula_student/exc1 ./
 rm -r formula_student
+cd ~/kthfsdv
 catkin build
 ```
 ## Start roscore and nodes
