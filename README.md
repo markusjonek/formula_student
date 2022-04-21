@@ -9,6 +9,9 @@ docker pull kthfsdv/ros-intro
 and run it:
 ```
 docker run -it kthfsdv/ros-intro
+```
+and then:
+```
 source /opt/ros/melodic/setup.bash
 ```
 Then start two new terminal windows and respectively run:
