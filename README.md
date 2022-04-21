@@ -62,10 +62,11 @@ Here is a screenshot of PlotJuggler:
 ![exercise1_plot](https://user-images.githubusercontent.com/17691221/163716334-0ec68367-8a8b-4977-9a72-8f2e1e72ebe0.png)
 ___
 # Exercise 2
-To run the plotting you will need matplotlib and numpy
+To run the plotting you will need matplotlib, numpy and tikzplotlib:
 ````
 pip3 install numpy
 pip3 install matplotlib
+pip3 install tikzplotlib
 ````
 Then to run the code do:
 ````
